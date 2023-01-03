@@ -308,9 +308,14 @@ if [ ! -f "/run/systemd/resolve/resolv.conf" ]; then
   touch "/run/systemd/resolve/resolv.conf"
 fi
 
-if [ `cat /etc/resolv.conf | grep -c "nameserver 8.8.8.8"` = 0 ]; then
-    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+#if [ `cat /etc/resolv.conf | grep -c "nameserver 8.8.8.8"` = 0 ]; then
+#    echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+#fi
+
+if [ `cat /etc/resolvconf/resolv.conf.d/tail | grep -c "nameserver 8.8.8.8"` = 0 ]; then
+    echo "nameserver 8.8.8.8" >> /etc/resolvconf/resolv.conf.d/tail
 fi
+sudo /etc/init.d/resolvconf restart
 
 set -e
 install_docker
